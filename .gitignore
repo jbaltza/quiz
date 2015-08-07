@@ -4,3 +4,4 @@ npm-debug.log
 typings
 quiz.sqlite
 .env
+quiz_backup.sqlite
