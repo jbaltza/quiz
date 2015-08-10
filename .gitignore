@@ -5,3 +5,4 @@ typings
 quiz.sqlite
 .env
 quiz_backup.sqlite
+quiz_backup2.sqlite
