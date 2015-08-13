@@ -37,7 +37,7 @@ exports.create = function (req, res) {
 	});
 };
 
-// DELETE /logout	-- Destruir sesión
+// DELETE /login	-- Destruir sesión
 exports.destroy = function (req, res) {
 	delete req.session.user;
 	res.redirect(req.session.redir.toString());
