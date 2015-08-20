@@ -13,6 +13,9 @@ var routes = require('./routes/index');
 
 var app = express();
 
+// Variable global de tiempo de acceso
+var tiempo_acceso = tiempo_acceso || 0;
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -39,8 +42,27 @@ app.use(function (req, res, next) {
     req.session.redir = req.path;
   }
   
-  // Hacer visible erq.session en las vistas
+  // Hacer visible req.session en las vistas
   res.locals.session = req.session;
+  next();
+});
+
+// Sesion solo dure 2 minutos
+app.use(function (req, res, next) {
+  var tiempo_Maximo = 120000; // 2 minutos
+  var tiempo_actual = new Date().getTime();
+  var tiempo_transcurrido = 0;
+
+  if (req.session && tiempo_acceso) {
+    tiempo_transcurrido = tiempo_actual - tiempo_acceso;
+    if (tiempo_transcurrido > tiempo_Maximo) {
+      delete req.session.user;
+    }
+  }
+  
+  tiempo_acceso = tiempo_actual;
+  // Hacer visible tiempo_acceso en las vistas
+  res.locals.session.tiempo_acceso = tiempo_transcurrido;
   next();
 });
 
